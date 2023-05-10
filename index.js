@@ -17,9 +17,9 @@ function broadcast(bgn, msg, irc) {
 // ===== Event Handlers =====
 function handleKick(chan, ch, nick, by, reason, irc) {
   // If the bot got kicked, Rejoin.
-  broadcast(chan.bridge_group_name, `${c.bold}${to} ${nick}${c.reset} ${msg}`, irc);
+  broadcast(chan.bridge_group_name, `${c.bold}${ch} ${nick}${c.reset} got kicked by ${c.bold}${by}${c.reset}: ${reason || "No reason provided."}`, irc);
   if (nick === irc.nick) {
-    console.log(`${chan.server} ${irc.nick} - Got kicked by ${by} with reason: ${reason}`);
+    console.log(`${chan.server} ${irc.nick} - Got kicked by ${by} with reason: ${reason || "No reason provided."}`);
     setTimeout(_ => irc.join(ch), 5000);
     return;
   }
