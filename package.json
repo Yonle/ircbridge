@@ -1,0 +1,26 @@
+{
+  "name": "ircbridge",
+  "version": "1.0.0",
+  "description": "Simple IRC bot that bridges channel from different networks.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.sr.ht/~yonle/ircbridge.git"
+  },
+  "keywords": [
+    "irc",
+    "bridge"
+  ],
+  "author": "Yonle <yonle@lecturify.net>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://todo.sr.ht/~yonle/ircbridge"
+  },
+  "homepage": "https://git.sr.ht/~yonle/ircbridge#readme",
+  "dependencies": {
+    "matrix-org-irc": "2.0.0-fixmaps"
+  }
+}
