@@ -41,7 +41,7 @@ function handleAction(chan, nick, to, msg, irc) {
 }
 
 function handlePart(chan, channel, nick, reason, irc) {
-  broadcast(chan.bridge_group_name, `${c.bold}${to} * ${nick}${c.reset} left: ${reason || "No reason provided."}`, irc);
+  broadcast(chan.bridge_group_name, `${c.bold}${channel} * ${nick}${c.reset} left: ${reason || "No reason provided."}`, irc);
 }
 
 function handleJoin(chan, channel, nick, irc) {
