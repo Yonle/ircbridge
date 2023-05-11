@@ -45,7 +45,7 @@ function handlePart(chan, channel, nick, reason, irc) {
 }
 
 function handleJoin(chan, channel, nick, irc) {
-  broadcast(chan.bridge_group_name, `${c.bold}${channel} ${nick}${c.reset} joined.`, irc);
+  broadcast(chan.bridge_group_name, `${c.bold}${channel} * ${nick}${c.reset} joined.`, irc);
 }
 
 function handleMotd(chan, irc) {
