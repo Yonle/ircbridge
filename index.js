@@ -4,13 +4,13 @@ const c = IRC.codes;
 
 const bridges = new Map();
 
-function broadcast(bgn, msg, irc) {
+function broadcast(bgn, msg, irc, channel) {
   bridges.get(bgn)
     .forEach(bot => {
-      // If it was THIS bot, Then don't.
-      if (irc === bot) return;
-
-      bot.chans.forEach(ch => bot.say(ch.key, msg));
+      bot.chans.forEach(ch => {
+        if (bot === irc && channel === ch.key) return;
+        bot.say(ch.key, msg);
+      });
     });
 }
 
