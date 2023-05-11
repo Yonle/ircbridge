@@ -27,25 +27,25 @@ function handleKick(chan, ch, nick, by, reason, irc) {
 
 function handleMessage(chan, nick, to, msg, irc) {
   if (to === irc.nick) return; // Ignore PMs.
-  broadcast(chan.bridge_group_name, `${c.bold}${to} ${nick}${c.reset} ${msg}`, irc, to);
+  broadcast(chan.bridge_group_name, `${c.bold}[${chan.name}] (${nick})${c.reset} ${msg}`, irc, to);
 }
 
 function handleNotice(chan, nick, to, msg, irc) {
   if (to === irc.nick) return; // Ignore PMs.
-  broadcast(chan.bridge_group_name, `${c.bold}${to} Notice(${nick}${c.reset}) ${msg}`, irc, to);
+  broadcast(chan.bridge_group_name, `${c.bold}[${chan.name}] Notice(${nick}${c.reset}) ${msg}`, irc, to);
 }
 
 function handleAction(chan, nick, to, msg, irc) {
   if (to === irc.nick) return; // Ignore PMs.
-  broadcast(chan.bridge_group_name, `${c.bold}${to} * ${nick}${c.reset} ${msg}`, irc, to);
+  broadcast(chan.bridge_group_name, `${c.bold}[${chan.name}] * ${nick}${c.reset} ${msg}`, irc, to);
 }
 
 function handlePart(chan, channel, nick, reason, irc) {
-  broadcast(chan.bridge_group_name, `${c.bold}${channel} * ${nick}${c.reset} left: ${reason || "No reason provided."}`, irc, channel);
+  broadcast(chan.bridge_group_name, `${c.bold}[${chan.name}] * ${nick}${c.reset} left: ${reason || "No reason provided."}`, irc, channel);
 }
 
 function handleJoin(chan, channel, nick, irc) {
-  broadcast(chan.bridge_group_name, `${c.bold}${channel} * ${nick}${c.reset} joined.`, irc, channel);
+  broadcast(chan.bridge_group_name, `${c.bold}[${chan.name}] * ${nick}${c.reset} joined.`, irc, channel);
 }
 
 function handleMotd(chan, irc) {
@@ -70,6 +70,8 @@ function handleConnect(chan, irc) {
 function makebot(filename) {
   const chan = require(__dirname + "/__channels/" + filename);
   const irc = new IRC.Client(chan.server, chan.nick, chan.bot)
+
+  chan.name = filename.split(".").shift();
 
   if (!bridges.has(chan.bridge_group_name)) bridges.set(chan.bridge_group_name, new Set());
   bridges.get(chan.bridge_group_name).add(irc);
