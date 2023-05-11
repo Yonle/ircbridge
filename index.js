@@ -17,7 +17,7 @@ function broadcast(bgn, msg, irc, channel) {
 // ===== Event Handlers =====
 function handleKick(chan, ch, nick, by, reason, irc) {
   // If the bot got kicked, Rejoin.
-  broadcast(chan.bridge_group_name, `${c.bold}${ch} ${nick}${c.reset} got kicked by ${c.bold}${by}${c.reset}: ${reason || "No reason provided."}`, irc);
+  broadcast(chan.bridge_group_name, `${c.bold}${ch} ${nick}${c.reset} got kicked by ${c.bold}${by}${c.reset}: ${reason || "No reason provided."}`, irc, ch);
   if (nick === irc.nick) {
     console.log(`${chan.server} ${irc.nick} - Got kicked by ${by} with reason: ${reason || "No reason provided."}`);
     setTimeout(_ => irc.join(ch), 5000);
@@ -27,25 +27,25 @@ function handleKick(chan, ch, nick, by, reason, irc) {
 
 function handleMessage(chan, nick, to, msg, irc) {
   if (to === irc.nick) return; // Ignore PMs.
-  broadcast(chan.bridge_group_name, `${c.bold}${to} ${nick}${c.reset} ${msg}`, irc);
+  broadcast(chan.bridge_group_name, `${c.bold}${to} ${nick}${c.reset} ${msg}`, irc, to);
 }
 
 function handleNotice(chan, nick, to, msg, irc) {
   if (to === irc.nick) return; // Ignore PMs.
-  broadcast(chan.bridge_group_name, `${c.bold}${to} Notice(${nick}${c.reset}) ${msg}`, irc);
+  broadcast(chan.bridge_group_name, `${c.bold}${to} Notice(${nick}${c.reset}) ${msg}`, irc, to);
 }
 
 function handleAction(chan, nick, to, msg, irc) {
   if (to === irc.nick) return; // Ignore PMs.
-  broadcast(chan.bridge_group_name, `${c.bold}${to} * ${nick}${c.reset} ${msg}`, irc);
+  broadcast(chan.bridge_group_name, `${c.bold}${to} * ${nick}${c.reset} ${msg}`, irc, to);
 }
 
 function handlePart(chan, channel, nick, reason, irc) {
-  broadcast(chan.bridge_group_name, `${c.bold}${channel} * ${nick}${c.reset} left: ${reason || "No reason provided."}`, irc);
+  broadcast(chan.bridge_group_name, `${c.bold}${channel} * ${nick}${c.reset} left: ${reason || "No reason provided."}`, irc, channel);
 }
 
 function handleJoin(chan, channel, nick, irc) {
-  broadcast(chan.bridge_group_name, `${c.bold}${channel} * ${nick}${c.reset} joined.`, irc);
+  broadcast(chan.bridge_group_name, `${c.bold}${channel} * ${nick}${c.reset} joined.`, irc, channel);
 }
 
 function handleMotd(chan, irc) {
