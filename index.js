@@ -8,7 +8,7 @@ function broadcast(bgn, msg, irc, channel) {
   bridges.get(bgn)
     .forEach(bot => {
       bot.chans.forEach(ch => {
-        if (bot === irc && channel === ch.key) return;
+        if (bot === irc && ((channel ? channel === ch.key : true) || (typeof(channel) !== "string") && channel.includes(ch.key))) return;
         bot.say(ch.key, msg);
       });
     });
@@ -46,6 +46,10 @@ function handlePart(chan, channel, nick, reason, irc) {
 
 function handleJoin(chan, channel, nick, irc) {
   broadcast(chan.bridge_group_name, `${c.bold}[${chan.name}] * ${nick}${c.reset} joined.`, irc, channel);
+}
+
+function handleQuit(chan, nick, reason, channels, irc) {
+  broadcast(chan.bridge_group_name, `${c.bold}[${chan.name}] * ${nick}${c.reset} quit: ${reason || "No reason provided."}`, irc, channels);
 }
 
 function handleMotd(chan, irc) {
@@ -94,6 +98,10 @@ function makebot(filename) {
 
   irc.on('join', (channel, nick) =>
     handleJoin(chan, channel, nick, irc)
+  );
+
+  irc.on('quit', (nick, reason, channels) =>
+    handleQuit(chan, nick, reason, channels, irc)
   );
 
   irc.on('kick', (ch, nick, by, reason) =>
