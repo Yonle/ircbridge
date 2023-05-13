@@ -57,6 +57,10 @@ function handleMotd(chan, irc) {
   broadcast(chan.bridge_group_name, `${chan.server} ${irc.nick} - Ready`, irc);
 }
 
+function handleNick(chan, oldNick, newNick, channels) {
+  broadcast(chan.bridge_group_name, `${c.bold}[${chan.name}] * ${oldNick}${c.reset} is now known as ${c.bold}${newNick}`, irc, channels);
+}
+
 function handleDisconnection(chan, irc) {
   console.log(`${chan.server} ${irc.nick} - Got disconnected from server. Reconnecting in 5 seconds....`);
   broadcast(chan.bridge_group_name, `${chan.server} ${irc.nick} - Got disconnected from server. Reconnecting in 5 seconds....`, irc);
@@ -110,6 +114,10 @@ function makebot(filename) {
 
   irc.on('motd', _ =>
     handleMotd(chan, irc)
+  );
+
+  irc.on('nick', (oldNick, newNick, channels) =>
+    handleNick(chan, oldNick, newNick, channels)
   );
 
   irc.conn.on('close', _ =>
