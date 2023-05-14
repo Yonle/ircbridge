@@ -58,7 +58,7 @@ function handleMotd(chan, irc) {
 }
 
 function handleNick(chan, oldNick, newNick, channels) {
-  broadcast(chan.bridge_group_name, `${c.bold}[${chan.name}] * ${oldNick}${c.reset} is now known as ${c.bold}${newNick}`, irc, channels);
+  broadcast(chan.bridge_group_name, `${c.bold}[${chan.name}] * ${oldNick}${c.reset} is now known as ${c.bold}${newNick}`, null, channels);
 }
 
 function handleDisconnection(chan, irc) {
